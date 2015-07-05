@@ -10,10 +10,19 @@ try:
 except ImportError:
     from distutils.core import setup, find_packages
 
+try:
+    from setuptools.command.test import test as TestCommand
+    _supports_test_command = True
+except ImportError:
+    _supports_test_command = False
+
 import passpie_keepass
 
 
 __version__ = passpie_keepass.__version__
+
+
+setup_kwargs = {}
 
 
 with open('README.rst') as readme_file:
@@ -36,6 +45,31 @@ with open('requirements.txt') as _f:
 
 with open('dev_requirements.txt') as _f:
     dev_requirements = [l for l in (l.strip() for l in _f.readlines()) if l]
+
+
+if _supports_test_command:
+    class PyTest(TestCommand):
+        user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+        def initialize_options(self):
+            TestCommand.initialize_options(self)
+            self.pytest_args = []
+
+        def finalize_options(self):
+            TestCommand.finalize_options(self)
+            self.test_args = []
+            self.test_suite = True
+
+        def run_tests(self):
+            # import here, cause outside the eggs aren't loaded
+            import pytest
+            errno = pytest.main(self.pytest_args)
+            sys.exit(errno)
+
+    if 'pytest' not in dev_requirements:
+        dev_requirements.append('pytest')
+
+    setup_kwargs.setdefault('cmdclass', {}).update(test=PyTest)
 
 
 setup(
@@ -74,4 +108,5 @@ setup(
             'keepass=passpie_keepass.passpie_keepass:KppyImporter',
         ],
     },
+    **setup_kwargs
 )
