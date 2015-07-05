@@ -17,4 +17,7 @@ Keepass database importer for passpie using kppy
 Features
 --------
 
-* TODO
+* Imports KeePass databases using "kppy"
+  (tested on Python 2.7, 3.3, 3.4)
+  PyPy does not work because kppy depends on pycrypto
+

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import re
 import sys
 
 try:
@@ -21,8 +22,17 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
+requirements = []
+dependency_links = []
 with open('requirements.txt') as _f:
-    requirements = [l for l in (l.strip() for l in _f.readlines()) if l]
+    for _line in _f.readlines():
+        _line = _line.strip()
+        if _line.startswith('#'):
+            pass
+        elif _line.startswith('-e') or '://' in _line:
+            dependency_links.append(_line)
+        else:
+            requirements.append(_line)
 
 with open('dev_requirements.txt') as _f:
     dev_requirements = [l for l in (l.strip() for l in _f.readlines()) if l]
@@ -39,6 +49,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
+    dependency_links=dependency_links,
     license="MIT",
     keywords='passpie_keepass',
     classifiers=[
@@ -52,10 +63,15 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
+        # 'Programming Language :: Python :: Implementation :: PyPy',
         'Programming Language :: Python',
         'Topic :: Security :: Cryptography',
     ],
     test_suite='tests',
     tests_require=dev_requirements,
+    entry_points={
+        'passpie_importers': [
+            'keepass=passpie_keepass.passpie_keepass:KppyImporter',
+        ],
+    },
 )
