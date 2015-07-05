@@ -1,6 +1,6 @@
 click
 kppy
 # passpie>=0.4dev
-git+https://github.com/costypetrisor/passpie.git@external_importers#egg=passpie
+-e git+https://github.com/costypetrisor/passpie.git@external_importers#egg=passpie
 # pycrypto>=2.6  # for the pycrypto importing hack, remove afterwards pycrypto is fixed
 wheel

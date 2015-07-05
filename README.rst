@@ -2,11 +2,14 @@
 Passpie KeePass importer
 ===============================
 
-.. image:: https://img.shields.io/travis/costypetrisor/passpie-keepass.svg
-        :target: https://travis-ci.org/costypetrisor/passpie-keepass
-
 .. image:: https://img.shields.io/pypi/v/passpie-keepass.svg
         :target: https://pypi.python.org/pypi/passpie-keepass
+
+.. image:: https://travis-ci.org/costypetrisor/passpie_keepass.svg
+        :target: https://travis-ci.org/costypetrisor/passpie_keepass
+
+.. image:: https://ci.appveyor.com/api/projects/status/invup6mwj5bokwv1?svg=true
+        :target: https://ci.appveyor.com/project/costypetrisor/passpie-keepass
 
 
 Keepass database importer for passpie using kppy
