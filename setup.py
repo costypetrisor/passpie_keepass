@@ -39,7 +39,7 @@ with open('requirements.txt') as _f:
         if _line.startswith('#'):
             pass
         elif _line.startswith('-e') or '://' in _line:
-            dependency_links.append(_line)
+            dependency_links.append(_line.replace('-e', '').strip())
         else:
             requirements.append(_line)
 
